@@ -19,7 +19,7 @@ public class UserModel {
     private String password;
     private String nickname;
     private Role role;
-    private int tel;
+    private String tel;
     private String gender;
     private String profileImageUrl;
 
