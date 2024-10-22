@@ -26,6 +26,10 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 
     @Bean
@@ -75,16 +79,18 @@ public class SecurityConfig {
             .userDetailsService(userDetailsServiceImpl)
             .exceptionHandling(exception -> exception
                 .accessDeniedPage("/403.html")
-            );
+            )
+            // OAuth 로그인 설정 추가
+        .oauth2Login(oauth2 -> oauth2
+        .loginPage("/loginForm") // 로그인 페이지 URL
+        .userInfoEndpoint(userInfo -> userInfo
+            .userService(userDetailsServiceImpl) // OAuth 로그인 시 서비스 매핑
+        )
+    );
 
         return http.build();
     }
 
-    @Bean
-    public PasswordEncoder PasswordEncoder () {
-    	//return new MessageDigestPasswordEncoder("SHA-256");
-    	return new BCryptPasswordEncoder();
-    }
 
     
 }

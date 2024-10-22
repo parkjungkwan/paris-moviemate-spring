@@ -1,6 +1,7 @@
 package com.nc13.moviemates.component.model;
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.nc13.moviemates.enums.Role;
 
 import groovy.transform.builder.Builder;
 import lombok.Data;
@@ -23,12 +24,5 @@ public class UserModel {
     private String gender;
     private String profileImageUrl;
 
-    public enum Role {
-        ADMIN,
-        USER,
-
-        @JsonEnumDefaultValue
-        UNKNOWN;
-    }
 
 }

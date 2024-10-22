@@ -1,6 +1,8 @@
 package com.nc13.moviemates.entity;
 
 import com.nc13.moviemates.component.model.UserModel;
+import com.nc13.moviemates.enums.Role;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +28,4 @@ public class UserEntity {
     private String profileImageUrl;
 
 
-    public enum Role {
-        ADMIN, USER
-    }
 }
