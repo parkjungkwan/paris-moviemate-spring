@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import com.nc13.moviemates.absent.OAuth2UserInfo;
+import com.nc13.moviemates.absent.UserPrincipal;
 import com.nc13.moviemates.entity.UserEntity;
 import com.nc13.moviemates.enums.Provider;
 import com.nc13.moviemates.enums.Role;
@@ -81,6 +82,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             System.out.println(oAuth2UserInfo.provider() +" 로그인을 이미 한 적이 있습니다.");
         }
 
-        return new PrincipalDetail(userEntity,oAuth2User.getAttributes());
+        return new UserPrincipal(userEntity,oAuth2User.getAttributes());
     }
 }

@@ -22,11 +22,10 @@ public class UserPrincipal implements UserDetails, OAuth2User {
         this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getKey()));
     }
 
-    public UserPrincipal(UserEntity user, Map<String, Object> attributes, String nameAttributeKey) {
+    public UserPrincipal(UserEntity user, Map<String, Object> attributes) {
         this.user = user;
         this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getKey()));
         this.attributes = attributes;
-        this.nameAttributeKey = nameAttributeKey;
     }
 
     /**

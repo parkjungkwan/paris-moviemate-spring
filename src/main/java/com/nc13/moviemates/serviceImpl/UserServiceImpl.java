@@ -167,4 +167,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public UserEntity login(UserEntity user) {
+        return repository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+    }
+
+
 }

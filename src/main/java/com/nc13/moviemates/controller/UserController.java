@@ -6,8 +6,14 @@ import com.nc13.moviemates.entity.UserEntity;
 import com.nc13.moviemates.service.HistoryService;
 import com.nc13.moviemates.service.UserService;
 import com.nc13.moviemates.serviceImpl.UserServiceImpl;
+
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @CrossOrigin
 @RequiredArgsConstructor
@@ -51,6 +58,30 @@ public class UserController {
         return "admin/auth-login";
     }
 
+    @PostMapping("/login")
+    public String login(@RequestBody UserEntity user, Model model, HttpServletRequest request) {
+
+        UserEntity loginUser = service.login(user);
+
+        log.info("########## 로그인 사용자 정보 : {}", loginUser);
+
+        if (loginUser != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("loginUser", loginUser);
+            log.info("########## 로그인 세션 정보 : {}", session.getAttribute("loginUser"));    
+            // model.addAttribute("loginUser", loginUser);
+            return "admin/login";
+        }else {
+            model.addAttribute("message", "로그인 실패");
+
+        }
+
+
+        
+        return "admin/auth-login";
+    }
+
+
     /*@GetMapping("/")
     public String loginSuccess(@AuthenticationPrincipal OAuth2User principal, Model model) {
         model.addAttribute("name", principal.getAttribute("name"));
@@ -66,7 +97,11 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if(session != null){
+            session.invalidate();
+        }
         return "redirect:/";
     }
 

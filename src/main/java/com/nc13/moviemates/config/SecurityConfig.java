@@ -1,17 +1,11 @@
 package com.nc13.moviemates.config;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
+import com.nc13.moviemates.util.PrincipalOauth2UserService;
 import com.nc13.moviemates.serviceImpl.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final PrincipalOauth2UserService PrincipalOauth2UserService;
 
 
     @Bean
@@ -84,7 +79,7 @@ public class SecurityConfig {
         .oauth2Login(oauth2 -> oauth2
         .loginPage("/loginForm") // 로그인 페이지 URL
         .userInfoEndpoint(userInfo -> userInfo
-            .userService(userDetailsServiceImpl) // OAuth 로그인 시 서비스 매핑
+            .userService(PrincipalOauth2UserService) // OAuth 로그인 시 서비스 매핑
         )
     );
 
