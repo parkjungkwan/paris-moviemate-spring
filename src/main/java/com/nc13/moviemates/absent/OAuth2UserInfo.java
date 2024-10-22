@@ -4,6 +4,7 @@ import lombok.Builder;
 import java.util.*;
 
 import com.nc13.moviemates.entity.UserEntity;
+import com.nc13.moviemates.enums.Provider;
 import com.nc13.moviemates.enums.Role;
 
 import jakarta.security.auth.message.AuthException;
@@ -13,9 +14,10 @@ import jakarta.security.auth.message.AuthException;
 
 @Builder
 public record OAuth2UserInfo(
-        String name,
+        String nickname,
         String email,
-        String profile
+        String profileImageUrl,
+        Provider provider
 ) {
 
     public static OAuth2UserInfo of(String registrationId, Map<String, Object> attributes) {
@@ -29,9 +31,9 @@ public record OAuth2UserInfo(
 
     private static OAuth2UserInfo ofGoogle(Map<String, Object> attributes) {
         return OAuth2UserInfo.builder()
-                .name((String) attributes.get("name"))
+                .nickname((String) attributes.get("nickname"))
                 .email((String) attributes.get("email"))
-                .profile((String) attributes.get("picture"))
+                .profileImageUrl((String) attributes.get("profileImageUrl"))
                 .build();
     }
 
@@ -40,15 +42,15 @@ public record OAuth2UserInfo(
         Map<String, Object> profile = (Map<String, Object>) account.get("profile");
 
         return OAuth2UserInfo.builder()
-                .name((String) profile.get("nickname"))
+                .nickname((String) profile.get("nickname"))
                 .email((String) account.get("email"))
-                .profile((String) profile.get("profile_image_url"))
+                .profileImageUrl((String) profile.get("profile_image_url"))
                 .build();
     }
 
     public UserEntity toEntity() {
         return UserEntity.builder()
-                .nickname(name)
+                .nickname(nickname)
                 .email(email)
                 .role(Role.USER)
                 .build();

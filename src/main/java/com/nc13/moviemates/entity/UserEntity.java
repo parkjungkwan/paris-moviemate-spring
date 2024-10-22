@@ -1,6 +1,7 @@
 package com.nc13.moviemates.entity;
 
 import com.nc13.moviemates.component.model.UserModel;
+import com.nc13.moviemates.enums.Provider;
 import com.nc13.moviemates.enums.Role;
 
 import jakarta.persistence.*;
@@ -26,6 +27,7 @@ public class UserEntity {
     private String tel;
     private String gender;
     private String profileImageUrl;
+    private Provider provider; //
 
 
 }
